@@ -1,0 +1,72 @@
+---
+title: "Enunciados de los problemas"
+format:
+    html: default
+    typst: default
+editor: visual
+---
+
+## Enunciados de los problemas de Teoría de la Decisión bajo incertidumbre
+
+### Ejercicio 1:
+
+Una empresa quiere invertir en un pequeño negocio y debe elegir entre cuatro alternativas. Los beneficios dependen de cómo evolucione la economía durante el próximo año, algo que no pueden predecir con certeza.
+
+Considera tres posibles escenarios: crecimiento económico, estabilidad económica y recesión.
+
+| Alternativas | e1  | e2  | e3  |
+|--------------|-----|-----|-----|
+| d1           | 50  | 30  | 10  |
+| d2           | 35  | 25  | 15  |
+| d3           | 60  | 20  | -10 |
+| d4           | 20  | 18  | 12  |
+
+#### Cuestionario de Preguntas (Verdadero / Falso)
+
+Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
+
+1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es el alquiler turístico ($d_3$) con un beneficio de 60.
+
+2.  En la situación favorable, el criterio de Wald selecciona la tienda online ($d_1$) por ser la más equilibrada.
+
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda el proveedor D ($d_4$) con un coste medio de 26.000 €.
+
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), la cafetería ($d_2$) obtiene el valor más alto con 34.
+
+5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna (escenario).
+
+### Ejercicio 2:
+
+Una bodega de vino de Jerez de la Frontera está considerando ampliar sus instalaciones para atender a un mayor volumen en los mercados internacionales. El gerente debe decidir qué capacidad de producción y crianza implantar, pero desconoce como evolucionará la demanda en el próximo año.
+
+Tiene tres alternativas:
+
+- $d_1$: Mantener una producción artesanal y limitada, con poca inversión.
+
+- $d_2$: Instalar una capacidad de crianza media, con una inversión moderada.
+
+- $d_3$: Construir una gran bodega de crianza a gran escala, con una inversión elevada.
+
+Los beneficios netos anuales estimados, expresados en miles de euros, dependen de la demanda futura del vino:
+
+| Alternativas | Demanda baja, e1 | Demanda media, e2 | Demanda alta, e3 |
+|--------------|------------------|-------------------|------------------|
+| d1           | 18               | 22                | 24               |
+| d2           | 10               | 28                | 38               |
+| d3           | -8               | 20                | 55               |
+
+El gerente no dispone de información suficiente para asignar probabilidades a los distintos escenarios. Por ello, quiere estudiar qué alternativa le conviene mediante los criterios de decisión bajo incertidumbre.
+
+#### Cuestionario de Preguntas (Verdadero / Falso)
+
+Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
+
+1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada (d1d_1d1​).
+
+2.  El criterio optimista recomienda la capacidad media (d2d_2d2​) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+
+3.  Aplicando el criterio de Laplace, la alternativa seleccionada es la capacidad media (d2d_2d2​) con un beneficio medio de 25,33 miles de euros.
+
+4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa (d2d_2d2​, capacidad media).
+
+5.  En el criterio de Hurwicz con α=0,6\alpha = 0,6α=0,6, la opción menos ventajosa para la bodega es construir la gran infraestructura (d3d_3d3​).
