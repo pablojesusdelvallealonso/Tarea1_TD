@@ -1,0 +1,179 @@
+---
+title: "Ejercicios_resueltos"
+format:
+    html: default
+    typst: default
+editor: visual
+---
+
+## Enunciados de los problemas de Teoría de la Decisión bajo incertidumbre
+
+### Ejercicio 1:
+
+Una empresa quiere invertir en un pequeño negocio y debe elegir entre cuatro alternativas. Los beneficios dependen de cómo evolucione la economía durante el próximo año, algo que no pueden predecir con certeza.
+
+Considera tres posibles escenarios: crecimiento económico, estabilidad económica y recesión.
+
+| Alternativas | e1  | e2  | e3  |
+|--------------|-----|-----|-----|
+| d1           | 50  | 30  | 10  |
+| d2           | 35  | 25  | 15  |
+| d3           | 60  | 20  | -10 |
+| d4           | 20  | 18  | 12  |
+
+```{r}
+# 1. Definición de la matriz de decisión
+tabla = matrix(c(
+  50, 30,  10,
+  35, 25,  15,
+  60, 20, -10,
+  20, 18,  12
+), nrow = 4, byrow = TRUE)
+
+rownames(tabla) = c("d1", "d2", "d3", "d4")
+colnames(tabla) = c("e1", "e2", "e3")
+
+cat("MATRIZ DE DECISIÓN INICIAL\n")
+print(tabla)
+cat("\n")
+
+# Extraer valores estadísticos básicos por fila y columna
+max_filas <- apply(tabla, 1, max)
+min_filas <- apply(tabla, 1, min)
+max_cols  <- apply(tabla, 2, max)
+
+
+# =====================================================================
+# 2. SITUACIÓN FAVORABLE (Maximización de Beneficios)
+# =====================================================================
+cat("=========================================\n")
+cat("SITUACIÓN FAVORABLE (Maximización)\n")
+cat("=========================================\n")
+
+# A. Criterio de Laplace (Media aritmética)
+laplace_fav <- rowMeans(tabla)
+opt_laplace_fav <- names(which.max(laplace_fav))
+cat("A. Criterio de Laplace:\n")
+print(laplace_fav)
+cat("--> Alternativa óptima:", opt_laplace_fav, "\n\n")
+
+# B. Criterio Optimista / Maximax (Máximo de los máximos)
+maximax_val <- max_filas
+opt_maximax <- names(which.max(maximax_val))
+cat("B. Criterio Optimista (Maximax):\n")
+print(maximax_val)
+cat("--> Alternativa óptima:", opt_maximax, "\n\n")
+
+# C. Criterio Pesimista / Maximin / Wald (Máximo de los mínimos)
+maximin_val <- min_filas
+opt_maximin <- names(which.max(maximin_val))
+cat("C. Criterio Pesimista (Maximin):\n")
+print(maximin_val)
+cat("--> Alternativa óptima:", opt_maximin, "\n\n")
+
+# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
+alpha <- 0.5
+hurwicz_fav <- alpha * max_filas + (1 - alpha) * min_filas
+opt_hurwicz_fav <- names(which.max(hurwicz_fav))
+cat("D. Criterio de Hurwicz (alpha =", alpha, "):\n")
+print(hurwicz_fav)
+cat("--> Alternativa óptima:", opt_hurwicz_fav, "\n\n")
+
+# E. Criterio de Savage (Minimiza el arrepentimiento máximo)
+matriz_arrepentimiento <- t(apply(tabla, 1, function(x) max_cols - x))
+max_arrepentimiento <- apply(matriz_arrepentimiento, 1, max)
+opt_savage <- names(which.min(max_arrepentimiento))
+cat("E. Criterio de Savage (Coste de oportunidad):\n")
+print(matriz_arrepentimiento)
+cat("Máximos arrepentimientos por alternativa:\n")
+print(max_arrepentimiento)
+cat("--> Alternativa óptima:", opt_savage, "\n\n")
+
+
+# =====================================================================
+# 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
+# =====================================================================
+cat("=========================================\n")
+cat("SITUACIÓN DESFAVORABLE (Minimización)\n")
+cat("=========================================\n")
+
+# A. Criterio de Laplace para Costes (Media mínima)
+opt_laplace_desf <- names(which.min(laplace_fav))
+cat("A. Criterio de Laplace (Costes):\n")
+print(laplace_fav)
+cat("--> Alternativa óptima (menor media):", opt_laplace_desf, "\n\n")
+
+# B. Criterio Minimax (Pesimista para costes: mínimo de los máximos)
+minimax_val <- max_filas
+opt_minimax <- names(which.min(minimax_val))
+cat("B. Criterio Minimax (Pesimista):\n")
+print(minimax_val)
+cat("--> Alternativa óptima:", opt_minimax, "\n\n")
+
+# C. Criterio Minimin (Optimista para costes: mínimo de los mínimos)
+minimin_val <- min_filas
+opt_minimin <- names(which.min(minimin_val))
+cat("C. Criterio Minimin (Optimista):\n")
+print(minimin_val)
+cat("--> Alternativa óptima:", opt_minimin, "\n\n")
+
+# D. Criterio de Hurwicz para Costes (alpha * min + (1 - alpha) * max)
+hurwicz_desf <- alpha * min_filas + (1 - alpha) * max_filas
+opt_hurwicz_desf <- names(which.min(hurwicz_desf))
+cat("D. Criterio de Hurwicz para Costes (alpha =", alpha, "):\n")
+print(hurwicz_desf)
+cat("--> Alternativa óptima:", opt_hurwicz_desf, "\n")
+
+
+
+```
+
+#### Cuestionario de Preguntas (Verdadero / Falso)
+
+Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
+
+1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es el alquiler turístico ($d_3$) con un beneficio de 60.
+
+2.  En la situación favorable, el criterio de Wald selecciona la tienda online ($d_1$) por ser la más equilibrada.
+
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda el proveedor D ($d_4$) con un coste medio de 26.000 €.
+
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), la cafetería ($d_2$) obtiene el valor más alto con 34.
+
+5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna (escenario).
+
+### Ejercicio 2:
+
+Una bodega de vino de Jerez de la Frontera está considerando ampliar sus instalaciones para atender a un mayor volumen en los mercados internacionales. El gerente debe decidir qué capacidad de producción y crianza implantar, pero desconoce como evolucionará la demanda en el próximo año.
+
+Tiene tres alternativas:
+
+- $d_1$: Mantener una producción artesanal y limitada, con poca inversión.
+
+- $d_2$: Instalar una capacidad de crianza media, con una inversión moderada.
+
+- $d_3$: Construir una gran bodega de crianza a gran escala, con una inversión elevada.
+
+Los beneficios netos anuales estimados, expresados en miles de euros, dependen de la demanda futura del vino:
+
+| Alternativas | Demanda baja, e1 | Demanda media, e2 | Demanda alta, e3 |
+|--------------|------------------|-------------------|------------------|
+| d1           | 18               | 22                | 24               |
+| d2           | 10               | 28                | 38               |
+| d3           | -8               | 20                | 55               |
+
+El gerente no dispone de información suficiente para asignar probabilidades a los distintos escenarios. Por ello, quiere estudiar qué alternativa le conviene mediante los criterios de decisión bajo incertidumbre.
+
+#### Cuestionario de Preguntas (Verdadero / Falso)
+
+Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
+
+1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada (d1d_1d1​).
+
+2.  El criterio optimista recomienda la capacidad media (d2d_2d2​) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+
+3.  Aplicando el criterio de Laplace, la alternativa seleccionada es la capacidad media (d2d_2d2​) con un beneficio medio de 25,33 miles de euros.
+
+4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa (d2d_2d2​, capacidad media).
+
+5.  En el criterio de Hurwicz con α=0,6\alpha = 0,6α=0,6, la opción menos ventajosa para la bodega es construir la gran infraestructura (d3d_3d3​).
