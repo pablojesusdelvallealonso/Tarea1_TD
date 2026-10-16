@@ -10,10 +10,6 @@ editor: visual
 
 ### Ejercicio 1:
 
-Una empresa quiere invertir en un pequeño negocio y debe elegir entre cuatro alternativas. Los beneficios dependen de cómo evolucione la economía durante el próximo año, algo que no pueden predecir con certeza.
-
-Considera tres posibles escenarios: crecimiento económico, estabilidad económica y recesión.
-
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
 | d1           | 50  | 30  | 10  |
