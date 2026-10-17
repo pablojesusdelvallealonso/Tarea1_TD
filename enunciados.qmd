@@ -21,15 +21,15 @@ editor: visual
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es el alquiler turístico ($d_3$) con un beneficio de 60.
+1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es ($d_3$) con un beneficio de 60.
 
-2.  En la situación favorable, el criterio de Wald selecciona la tienda online ($d_1$) por ser la más equilibrada.
+2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
 
-3.  En la situación desfavorable (costes), el criterio de Laplace recomienda el proveedor D ($d_4$) con un coste medio de 26.000 €.
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
 
-4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), la cafetería ($d_2$) obtiene el valor más alto con 34.
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
 
-5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna (escenario).
+5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna.
 
 ### Ejercicio 2:
 
