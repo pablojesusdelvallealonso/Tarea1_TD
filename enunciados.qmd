@@ -29,7 +29,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
 4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
 
-5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna.
+5.  En la situación desfavorable, el criterio de Wald selecciona ($d_3$).
 
 ### Ejercicio 2:
 

@@ -9,11 +9,6 @@ editor: visual
 ## Enunciados de los problemas de Teoría de la Decisión bajo incertidumbre
 
 ### Ejercicio 1:
-
-Una empresa quiere invertir en un pequeño negocio y debe elegir entre cuatro alternativas. Los beneficios dependen de cómo evolucione la economía durante el próximo año, algo que no pueden predecir con certeza.
-
-Considera tres posibles escenarios: crecimiento económico, estabilidad económica y recesión.
-
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
 | d1           | 50  | 30  | 10  |
@@ -35,94 +30,73 @@ colnames(tabla) = c("e1", "e2", "e3")
 
 cat("MATRIZ DE DECISIÓN INICIAL\n")
 print(tabla)
-cat("\n")
 
 # Extraer valores estadísticos básicos por fila y columna
-max_filas <- apply(tabla, 1, max)
-min_filas <- apply(tabla, 1, min)
-max_cols  <- apply(tabla, 2, max)
+max_filas = apply(tabla, 1, max)
+min_filas = apply(tabla, 1, min)
+max_cols  = apply(tabla, 2, max)
 
 
-# =====================================================================
-# 2. SITUACIÓN FAVORABLE (Maximización de Beneficios)
-# =====================================================================
-cat("=========================================\n")
-cat("SITUACIÓN FAVORABLE (Maximización)\n")
-cat("=========================================\n")
+# 2. Situación favorable (Maximización de Beneficios)
 
-# A. Criterio de Laplace (Media aritmética)
-laplace_fav <- rowMeans(tabla)
-opt_laplace_fav <- names(which.max(laplace_fav))
-cat("A. Criterio de Laplace:\n")
+# A. Criterio de Laplace
+laplace_fav = rowMeans(tabla)
+opt_laplace_fav = names(which.max(laplace_fav))
 print(laplace_fav)
-cat("--> Alternativa óptima:", opt_laplace_fav, "\n\n")
+cat("Alternativa óptima:", opt_laplace_fav)
 
-# B. Criterio Optimista / Maximax (Máximo de los máximos)
-maximax_val <- max_filas
-opt_maximax <- names(which.max(maximax_val))
-cat("B. Criterio Optimista (Maximax):\n")
+# B. Criterio Optimista / Maximax
+maximax_val = max_filas
+opt_maximax = names(which.max(maximax_val))
 print(maximax_val)
-cat("--> Alternativa óptima:", opt_maximax, "\n\n")
+cat("Alternativa óptima:", opt_maximax)
 
-# C. Criterio Pesimista / Maximin / Wald (Máximo de los mínimos)
-maximin_val <- min_filas
-opt_maximin <- names(which.max(maximin_val))
-cat("C. Criterio Pesimista (Maximin):\n")
+# C. Criterio Pesimista / Maximin / Wald
+maximin_val = min_filas
+opt_maximin = names(which.max(maximin_val))
 print(maximin_val)
-cat("--> Alternativa óptima:", opt_maximin, "\n\n")
+cat("Alternativa óptima:", opt_maximin)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-alpha <- 0.5
-hurwicz_fav <- alpha * max_filas + (1 - alpha) * min_filas
-opt_hurwicz_fav <- names(which.max(hurwicz_fav))
-cat("D. Criterio de Hurwicz (alpha =", alpha, "):\n")
+alpha = 0.5
+hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
+opt_hurwicz_fav = names(which.max(hurwicz_fav))
 print(hurwicz_fav)
-cat("--> Alternativa óptima:", opt_hurwicz_fav, "\n\n")
+cat("Alternativa óptima:", opt_hurwicz_fav)
 
 # E. Criterio de Savage (Minimiza el arrepentimiento máximo)
-matriz_arrepentimiento <- t(apply(tabla, 1, function(x) max_cols - x))
-max_arrepentimiento <- apply(matriz_arrepentimiento, 1, max)
-opt_savage <- names(which.min(max_arrepentimiento))
-cat("E. Criterio de Savage (Coste de oportunidad):\n")
+matriz_arrepentimiento = t(apply(tabla, 1, function(x) max_cols - x))
+max_arrepentimiento = apply(matriz_arrepentimiento, 1, max)
+opt_savage = names(which.min(max_arrepentimiento))
 print(matriz_arrepentimiento)
-cat("Máximos arrepentimientos por alternativa:\n")
 print(max_arrepentimiento)
-cat("--> Alternativa óptima:", opt_savage, "\n\n")
+cat("Alternativa óptima:", opt_savage)
 
 
-# =====================================================================
 # 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
-# =====================================================================
-cat("=========================================\n")
-cat("SITUACIÓN DESFAVORABLE (Minimización)\n")
-cat("=========================================\n")
 
-# A. Criterio de Laplace para Costes (Media mínima)
-opt_laplace_desf <- names(which.min(laplace_fav))
-cat("A. Criterio de Laplace (Costes):\n")
+# A. Criterio de Laplace para Costes
+opt_laplace_desf = names(which.min(laplace_fav))
 print(laplace_fav)
-cat("--> Alternativa óptima (menor media):", opt_laplace_desf, "\n\n")
+cat("Alternativa óptima (menor media):", opt_laplace_desf)
 
-# B. Criterio Minimax (Pesimista para costes: mínimo de los máximos)
-minimax_val <- max_filas
-opt_minimax <- names(which.min(minimax_val))
-cat("B. Criterio Minimax (Pesimista):\n")
+# B. Criterio Minimax
+minimax_val = max_filas
+opt_minimax = names(which.min(minimax_val))
 print(minimax_val)
-cat("--> Alternativa óptima:", opt_minimax, "\n\n")
+cat("Alternativa óptima:", opt_minimax)
 
-# C. Criterio Minimin (Optimista para costes: mínimo de los mínimos)
-minimin_val <- min_filas
-opt_minimin <- names(which.min(minimin_val))
-cat("C. Criterio Minimin (Optimista):\n")
+# C. Criterio Minimin
+minimin_val = min_filas
+opt_minimin = names(which.min(minimin_val))
 print(minimin_val)
-cat("--> Alternativa óptima:", opt_minimin, "\n\n")
+cat("Alternativa óptima:", opt_minimin)
 
-# D. Criterio de Hurwicz para Costes (alpha * min + (1 - alpha) * max)
-hurwicz_desf <- alpha * min_filas + (1 - alpha) * max_filas
-opt_hurwicz_desf <- names(which.min(hurwicz_desf))
-cat("D. Criterio de Hurwicz para Costes (alpha =", alpha, "):\n")
+# D. Criterio de Hurwicz para Costes
+hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
+opt_hurwicz_desf = names(which.min(hurwicz_desf))
 print(hurwicz_desf)
-cat("--> Alternativa óptima:", opt_hurwicz_desf, "\n")
+cat("Alternativa óptima:", opt_hurwicz_desf)
 
 
 
@@ -132,15 +106,46 @@ cat("--> Alternativa óptima:", opt_hurwicz_desf, "\n")
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es el alquiler turístico ($d_3$) con un beneficio de 60.
+1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es ($d_3$) con un beneficio de 60.
 
-2.  En la situación favorable, el criterio de Wald selecciona la tienda online ($d_1$) por ser la más equilibrada.
+Verdadero:
+```{r}
+print(opt_maximax)
+print(maximax_val[3])
+```
 
-3.  En la situación desfavorable (costes), el criterio de Laplace recomienda el proveedor D ($d_4$) con un coste medio de 26.000 €.
+2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
 
-4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), la cafetería ($d_2$) obtiene el valor más alto con 34.
+Falso:
+```{r}
+print(opt_maximin)
+```
 
-5.  El criterio de Savage para la situación favorable calcula una matriz de arrepentimientos restando cada beneficio al máximo de su respectiva columna (escenario).
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
+
+Falso (diferente coste medio aunque la elegida sea $d_4$):
+```{r}
+print(opt_laplace_desf)
+print(laplace_fav[4])
+``` 
+
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
+
+Falso:
+```{r}
+alpha=0.6
+hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
+opt_hurwicz_fav = names(which.max(hurwicz_fav))
+print(hurwicz_fav)
+cat("Alternativa óptima:", opt_hurwicz_fav)
+```
+
+5.  En la situación desfavorable, el criterio de Wald selecciona ($d_3$).
+
+Verdadero:
+```{r}
+print(opt_minimin)
+```
 
 ### Ejercicio 2:
 
