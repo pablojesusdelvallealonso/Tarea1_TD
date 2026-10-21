@@ -9,6 +9,7 @@ editor: visual
 ## Enunciados de los problemas de Teoría de la Decisión bajo incertidumbre
 
 ### Ejercicio 1:
+
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
 | d1           | 50  | 30  | 10  |
@@ -17,6 +18,10 @@ editor: visual
 | d4           | 20  | 18  | 12  |
 
 ```{r}
+#cargar funciones
+
+source("teoriadecision_funciones_incertidumbre.R")
+
 # 1. Definición de la matriz de decisión
 tabla = matrix(c(
   50, 30,  10,
@@ -109,6 +114,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 1.  En la situación favorable, según el criterio optimista (Maximax), la alternativa elegida es ($d_3$) con un beneficio de 60.
 
 Verdadero:
+
 ```{r}
 print(opt_maximax)
 print(maximax_val[3])
@@ -117,6 +123,7 @@ print(maximax_val[3])
 2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
 
 Falso:
+
 ```{r}
 print(opt_maximin)
 ```
@@ -124,14 +131,16 @@ print(opt_maximin)
 3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
 
 Falso (diferente coste medio aunque la elegida sea $d_4$):
+
 ```{r}
 print(opt_laplace_desf)
 print(laplace_fav[4])
-``` 
+```
 
 4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
 
 Falso:
+
 ```{r}
 alpha=0.6
 hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
@@ -143,6 +152,7 @@ cat("Alternativa óptima:", opt_hurwicz_fav)
 5.  En la situación desfavorable, el criterio de Wald selecciona ($d_3$).
 
 Verdadero:
+
 ```{r}
 print(opt_minimin)
 ```
@@ -169,16 +179,133 @@ Los beneficios netos anuales estimados, expresados en miles de euros, dependen d
 
 El gerente no dispone de información suficiente para asignar probabilidades a los distintos escenarios. Por ello, quiere estudiar qué alternativa le conviene mediante los criterios de decisión bajo incertidumbre.
 
+```{r}
+# 1. Definición de la matriz de decisión
+tabla = matrix(c(
+  18, 22, 24,
+  10, 28, 38,
+  -8, 20, 55
+), nrow = 3, byrow = TRUE)
+
+rownames(tabla) = c("d1", "d2", "d3")
+colnames(tabla) = c("e1", "e2", "e3")
+
+cat("MATRIZ DE DECISIÓN INICIAL\n")
+print(tabla)
+
+# Extraer valores estadísticos básicos por fila y columna
+max_filas = apply(tabla, 1, max)
+min_filas = apply(tabla, 1, min)
+max_cols  = apply(tabla, 2, max)
+
+
+# 2. Situación favorable (Maximización de Beneficios)
+
+# A. Criterio de Laplace
+laplace_fav = rowMeans(tabla)
+opt_laplace_fav = names(which.max(laplace_fav))
+print(laplace_fav)
+cat("Alternativa óptima:", opt_laplace_fav)
+
+# B. Criterio Optimista / Maximax
+maximax_val = max_filas
+opt_maximax = names(which.max(maximax_val))
+print(maximax_val)
+cat("Alternativa óptima:", opt_maximax)
+
+# C. Criterio Pesimista / Maximin / Wald
+maximin_val = min_filas
+opt_maximin = names(which.max(maximin_val))
+print(maximin_val)
+cat("Alternativa óptima:", opt_maximin)
+
+# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
+alpha = 0.5
+hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
+opt_hurwicz_fav = names(which.max(hurwicz_fav))
+print(hurwicz_fav)
+cat("Alternativa óptima:", opt_hurwicz_fav)
+
+# E. Criterio de Savage
+matriz_arrepentimiento = t(apply(tabla, 1, function(x) max_cols - x))
+max_arrepentimiento = apply(matriz_arrepentimiento, 1, max)
+opt_savage = names(which.min(max_arrepentimiento))
+print(matriz_arrepentimiento)
+print(max_arrepentimiento)
+cat("Alternativa óptima:", opt_savage)
+
+
+# 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
+
+# A. Criterio de Laplace para Costes
+opt_laplace_desf = names(which.min(laplace_fav))
+print(laplace_fav)
+cat("Alternativa óptima (menor media):", opt_laplace_desf)
+
+# B. Criterio Minimax
+minimax_val = max_filas
+opt_minimax = names(which.min(minimax_val))
+print(minimax_val)
+cat("Alternativa óptima:", opt_minimax)
+
+# C. Criterio Minimin
+minimin_val = min_filas
+opt_minimin = names(which.min(minimin_val))
+print(minimin_val)
+cat("Alternativa óptima:", opt_minimin)
+
+# D. Criterio de Hurwicz para Costes
+hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
+opt_hurwicz_desf = names(which.min(hurwicz_desf))
+print(hurwicz_desf)
+cat("Alternativa óptima:", opt_hurwicz_desf)
+```
+
 #### Cuestionario de Preguntas (Verdadero / Falso)
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada (d1d_1d1​).
+1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
 
-2.  El criterio optimista recomienda la capacidad media (d2d_2d2​) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+Verdadero:
 
-3.  Aplicando el criterio de Laplace, la alternativa seleccionada es la capacidad media (d2d_2d2​) con un beneficio medio de 25,33 miles de euros.
+```{r}
+print(opt_maximin)
+```
 
-4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa (d2d_2d2​, capacidad media).
+2.  El criterio optimista recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
 
-5.  En el criterio de Hurwicz con α=0,6\alpha = 0,6α=0,6, la opción menos ventajosa para la bodega es construir la gran infraestructura (d3d_3d3​).
+Falso:
+
+```{r}
+print(opt_maximax)
+```
+
+
+3. Aplicando el criterio de Laplace para costes, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33 miles..
+
+Verdadero:
+
+```{r}
+print(opt_laplace_desf)
+```
+
+4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
+
+Verdadero:
+
+```{r}
+print(c(opt_laplace_fav,opt_savage))
+```
+
+5. En el criterio de Hurwicz para costes con $\alpha = 0{,}6$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+
+Verdadero:
+
+```{r}
+alpha = 0.6
+hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
+opt_hurwicz_desf = names(which.max(hurwicz_desf))
+print(hurwicz_desf)
+cat("Alternativa menos ventajosa:", opt_hurwicz_desf)
+```
