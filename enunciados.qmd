@@ -65,4 +65,4 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
 4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
 
-5. En el criterio de Hurwicz para costes con $alpha = 0,6$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+5. En el criterio de Hurwicz para costes con $\alpha$ = 0,6, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
