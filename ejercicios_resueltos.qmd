@@ -10,7 +10,7 @@ editor: visual
 
 ### Ejercicio 1:
 
-Se considera la siguiente tabla de decisión, con 3 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 4 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
+Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 3 estados de naturaleza ($e_1$, $e_2$, $e_3$)
 
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
@@ -45,12 +45,12 @@ laplace_fav = criterio.Laplace(tabla1, favorable = TRUE)
 print(laplace_fav)
 
 # B. Criterio Optimista / Maximax
-maximax_fav = criterio.Optimista(tabla1, favorable = TRUE)
-print(maximax_fav)
+optimista_fav = criterio.Optimista(tabla1, favorable = TRUE)
+print(optimista_fav)
 
 # C. Criterio Pesimista / Maximin / Wald
-maximin_fav = criterio.Wald(tabla1, favorable = TRUE)
-print(maximin_fav)
+wald_fav = criterio.Wald(tabla1, favorable = TRUE)
+print(wald_fav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
 hurwicz_fav = criterio.Hurwicz(tabla1, alfa = 0.5, favorable = TRUE)
@@ -72,13 +72,13 @@ print(savage_fav)
 laplace_desfav = criterio.Laplace(tabla1, favorable = FALSE)
 print(laplace_desfav)
 
-# B. Criterio Minimax
-minimax_desfav = criterio.Optimista(tabla1, favorable = FALSE)
-print(minimax_desfav)
+# B. Criterio Optimista
+optimista_desfav = criterio.Optimista(tabla1, favorable = FALSE)
+print(optimista_desfav)
 
 # C. Criterio Pesimista / Minimin / Wald
-minimin_desfav = criterio.Wald(tabla1, favorable = FALSE)
-print(minimin_desfav)
+wald_desfav = criterio.Wald(tabla1, favorable = FALSE)
+print(wald_desfav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
 hurwicz_desfav = criterio.Hurwicz(tabla1, alfa = 0.5, favorable = FALSE)
@@ -102,7 +102,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 Verdadero:
 
 ```{r}
-print(maximax_fav$AlternativaOptima)
+print(optimista_fav$AlternativaOptima)
 ```
 
 2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
@@ -110,10 +110,10 @@ print(maximax_fav$AlternativaOptima)
 Falso:
 
 ```{r}
-print(maximin_fav$AlternativaOptima)
+print(wald_fav$AlternativaOptima)
 ```
 
-3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.
 
 Falso (diferente coste medio aunque la elegida sea $d_4$):
 
@@ -134,7 +134,7 @@ print(c(hurwicz_fav$AlternativaOptima,hurwicz_fav$ValorOptimo))
 Falso:
 
 ```{r}
-print(minimin_desfav$AlternativaOptima)
+print(wald_desfav$AlternativaOptima)
 ```
 
 ### Ejercicio 2:
@@ -199,12 +199,12 @@ print(solucion$Optimista[4])
 ```
 
 
-3. Aplicando el criterio de Laplace, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33 miles..
+3. Aplicando el criterio de Laplace, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor de 21,33.
 
-Falso:
+Falso, se selecciona ($d_2$):
 
 ```{r}
-print(c(solucion$Laplace[4],solucion$Optimista[1]))
+print(c(solucion$Laplace[4],solucion$Laplace[2]))
 ```
 
 4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
@@ -217,7 +217,7 @@ print(c(solucion$Savage[4],solucion$Laplace[4]))
 
 5. En el criterio de Hurwicz con $\alpha = 0{,}5$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
 
-Falso:
+Falso, ($d_2$) es la opción más ventajosa:
 
 ```{r}
 print(solucion$Hurwicz)

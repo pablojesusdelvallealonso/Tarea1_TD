@@ -10,7 +10,7 @@ editor: visual
 
 ### Ejercicio 1:
 
-Se considera la siguiente tabla de decisión, con 3 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 4 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
+Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 3 estados de naturaleza ($e_1$, $e_2$, $e_3$)
 
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
@@ -27,7 +27,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
 2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
 
-3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
+3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.
 
 4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,5$), ($d_2$) obtiene el valor más alto con 34.
 
@@ -63,7 +63,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
 2.  El criterio optimista recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
 
-3. Aplicando el criterio de Laplace, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33
+3. Aplicando el criterio de Laplace, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor de 21,33.
 
 4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
 
