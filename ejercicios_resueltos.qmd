@@ -10,7 +10,7 @@ editor: visual
 
 ### Ejercicio 1:
 
-Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 3 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
+Se considera la siguiente tabla de decisión, con 3 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 4 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
 
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
@@ -25,43 +25,43 @@ Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, 
 source("teoriadecision_funciones_incertidumbre.R")
 
 # 1. Definición de la matriz de decisión
-tabla = matrix(c(
-  50, 30,  10,
-  35, 25,  15,
-  60, 20, -10,
-  20, 18,  12
-), nrow = 4, byrow = TRUE)
-
-rownames(tabla) = c("d1", "d2", "d3", "d4")
-colnames(tabla) = c("e1", "e2", "e3")
+tabla1 = crea.tablaX(c(
+                          50, 30,  10,
+                          35, 25,  15,
+                          60, 20, -10,
+                          20, 18,  12
+                        ),
+                     numalternativas = 4, numestados = 3)
+rownames(tabla1) = c("d1", "d2", "d3", "d4")
+colnames(tabla1) = c("e1", "e2", "e3")
 
 cat("MATRIZ DE DECISIÓN INICIAL\n")
-print(tabla)
+print(tabla1)
 
 # 2. Situación favorable (Maximización de Beneficios)
 
 # A. Criterio de Laplace
-laplace_fav = criterio.Laplace(tabla, favorable = TRUE)
+laplace_fav = criterio.Laplace(tabla1, favorable = TRUE)
 print(laplace_fav)
 
 # B. Criterio Optimista / Maximax
-maximax_fav = criterio.Optimista(tabla, favorable = TRUE)
+maximax_fav = criterio.Optimista(tabla1, favorable = TRUE)
 print(maximax_fav)
 
 # C. Criterio Pesimista / Maximin / Wald
-maximin_fav = criterio.Wald(tabla, favorable = TRUE)
+maximin_fav = criterio.Wald(tabla1, favorable = TRUE)
 print(maximin_fav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-hurwicz_fav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = TRUE)
+hurwicz_fav = criterio.Hurwicz(tabla1, alfa = 0.5, favorable = TRUE)
 print(hurwicz_fav)
 
 # E. Criterio del Punto Ideal
-puntoideal_fav = criterio.PuntoIdeal(tabla, favorable = TRUE)
+puntoideal_fav = criterio.PuntoIdeal(tabla1, favorable = TRUE)
 print(puntoideal_fav)
 
 # F. Criterio de Savage
-savage_fav = criterio.Savage(tabla, favorable = TRUE)
+savage_fav = criterio.Savage(tabla1, favorable = TRUE)
 print(savage_fav)
 
 
@@ -69,27 +69,27 @@ print(savage_fav)
 
 
 # A. Criterio de Laplace
-laplace_desfav = criterio.Laplace(tabla, favorable = FALSE)
+laplace_desfav = criterio.Laplace(tabla1, favorable = FALSE)
 print(laplace_desfav)
 
 # B. Criterio Minimax
-minimax_desfav = criterio.Optimista(tabla, favorable = FALSE)
+minimax_desfav = criterio.Optimista(tabla1, favorable = FALSE)
 print(minimax_desfav)
 
 # C. Criterio Pesimista / Minimin / Wald
-minimin_desfav = criterio.Wald(tabla, favorable = FALSE)
+minimin_desfav = criterio.Wald(tabla1, favorable = FALSE)
 print(minimin_desfav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-hurwicz_desfav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = FALSE)
+hurwicz_desfav = criterio.Hurwicz(tabla1, alfa = 0.5, favorable = FALSE)
 print(hurwicz_desfav)
 
 # E. Criterio del Punto Ideal
-puntoideal_desfav = criterio.PuntoIdeal(tabla, favorable = FALSE)
+puntoideal_desfav = criterio.PuntoIdeal(tabla1, favorable = FALSE)
 print(puntoideal_desfav)
 
 # F. Criterio de Savage
-savage_desfav = criterio.Savage(tabla, favorable = FALSE)
+savage_desfav = criterio.Savage(tabla1, favorable = FALSE)
 print(savage_desfav)
 ```
 
@@ -161,115 +161,64 @@ El gerente no dispone de información suficiente para asignar probabilidades a l
 
 ```{r}
 # 1. Definición de la matriz de decisión
-tabla = matrix(c(
+tabla2 = crea.tablaX(c(
   18, 22, 24,
   10, 28, 38,
   -8, 20, 55
-), nrow = 3, byrow = TRUE)
+),numalternativas = 3, numestados = 3)
 
-rownames(tabla) = c("d1", "d2", "d3")
-colnames(tabla) = c("e1", "e2", "e3")
+rownames(tabla2) = c("Producción Artesanal (d1)", "Crianza Media (d2)", "Gran Bodega (d3)")
+colnames(tabla2) = c("Demanda Baja (e1)", "Demanda Media (e2)", "Demanda Alta (e3)")
 
 cat("MATRIZ DE DECISIÓN INICIAL\n")
-print(tabla)
+print(tabla2)
 
-
-# 2. Situación favorable (Maximización de Beneficios)
-
-# A. Criterio de Laplace
-laplace_fav = criterio.Laplace(tabla, favorable = TRUE)
-print(laplace_fav)
-
-# B. Criterio Optimista / Maximax
-maximax_fav = criterio.Optimista(tabla, favorable = TRUE)
-print(maximax_fav)
-
-# C. Criterio Pesimista / Maximin / Wald
-maximin_fav = criterio.Wald(tabla, favorable = TRUE)
-print(maximin_fav)
-
-# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-hurwicz_fav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = TRUE)
-print(hurwicz_fav)
-
-# E. Criterio del Punto Ideal
-puntoideal_fav = criterio.PuntoIdeal(tabla, favorable = TRUE)
-print(puntoideal_fav)
-
-# F. Criterio de Savage
-savage_fav = criterio.Savage(tabla, favorable = TRUE)
-print(savage_fav)
-
-
-# 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
-
-
-# A. Criterio de Laplace
-laplace_desfav = criterio.Laplace(tabla, favorable = FALSE)
-print(laplace_desfav)
-
-# B. Criterio Minimax
-minimax_desfav = criterio.Optimista(tabla, favorable = FALSE)
-print(minimax_desfav)
-
-# C. Criterio Pesimista / Minimin / Wald
-minimin_desfav = criterio.Wald(tabla, favorable = FALSE)
-print(minimin_desfav)
-
-# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-hurwicz_desfav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = FALSE)
-print(hurwicz_desfav)
-
-# E. Criterio del Punto Ideal
-puntoideal_desfav = criterio.PuntoIdeal(tabla, favorable = FALSE)
-print(puntoideal_desfav)
-
-# F. Criterio de Savage
-savage_desfav = criterio.Savage(tabla, favorable = FALSE)
-print(savage_desfav)
+# Tabla resumen con todos los criterios
+solucion = criterio.Todos(tabla2, alfa = 0.5, favorable = TRUE)
+print(solucion)
 ```
 
 #### Cuestionario de Preguntas (Verdadero / Falso)
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  Según el criterio pesimista de Wald en situación favorable, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
+1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
 
 Verdadero:
 
 ```{r}
-print(maximin_fav$AlternativaOptima)
+print(solucion$Wald[4])
 ```
 
-2.  El criterio optimista en situación favorable recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+2.  El criterio optimista recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
 
 Falso:
 
 ```{r}
-print(maximax_fav$AlternativaOptima)
+print(solucion$Optimista[4])
 ```
 
 
-3. Aplicando el criterio de Laplace para costes, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33 miles..
-
-Verdadero:
-
-```{r}
-print(c(laplace_desfav$AlternativaOptima,laplace_desfav$ValorOptimo))
-```
-
-4.  El criterio de Savage y el de Laplace favorables coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
-
-Verdadero:
-
-```{r}
-print(c(laplace_fav$AlternativaOptima,savage_fav$AlternativaOptima))
-```
-
-5. En el criterio de Hurwicz para costes con $\alpha = 0{,}5$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+3. Aplicando el criterio de Laplace, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33 miles..
 
 Falso:
 
 ```{r}
-print(hurwicz_desfav$AlternativaOptima)
+print(c(solucion$Laplace[4],solucion$Optimista[1]))
+```
+
+4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
+
+Verdadero:
+
+```{r}
+print(c(solucion$Savage[4],solucion$Laplace[4]))
+```
+
+5. En el criterio de Hurwicz con $\alpha = 0{,}5$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+
+Falso:
+
+```{r}
+print(solucion$Hurwicz)
 ```
