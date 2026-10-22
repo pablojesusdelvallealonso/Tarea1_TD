@@ -10,6 +10,8 @@ editor: visual
 
 ### Ejercicio 1:
 
+Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 3 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
+
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
 | d1           | 50  | 30  | 10  |
@@ -36,75 +38,59 @@ colnames(tabla) = c("e1", "e2", "e3")
 cat("MATRIZ DE DECISIÓN INICIAL\n")
 print(tabla)
 
-# Extraer valores estadísticos básicos por fila y columna
-max_filas = apply(tabla, 1, max)
-min_filas = apply(tabla, 1, min)
-max_cols  = apply(tabla, 2, max)
-
-
 # 2. Situación favorable (Maximización de Beneficios)
 
 # A. Criterio de Laplace
-laplace_fav = rowMeans(tabla)
-opt_laplace_fav = names(which.max(laplace_fav))
+laplace_fav = criterio.Laplace(tabla, favorable = TRUE)
 print(laplace_fav)
-cat("Alternativa óptima:", opt_laplace_fav)
 
 # B. Criterio Optimista / Maximax
-maximax_val = max_filas
-opt_maximax = names(which.max(maximax_val))
-print(maximax_val)
-cat("Alternativa óptima:", opt_maximax)
+maximax_fav = criterio.Optimista(tabla, favorable = TRUE)
+print(maximax_fav)
 
 # C. Criterio Pesimista / Maximin / Wald
-maximin_val = min_filas
-opt_maximin = names(which.max(maximin_val))
-print(maximin_val)
-cat("Alternativa óptima:", opt_maximin)
+maximin_fav = criterio.Wald(tabla, favorable = TRUE)
+print(maximin_fav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-alpha = 0.5
-hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
-opt_hurwicz_fav = names(which.max(hurwicz_fav))
+hurwicz_fav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = TRUE)
 print(hurwicz_fav)
-cat("Alternativa óptima:", opt_hurwicz_fav)
 
-# E. Criterio de Savage (Minimiza el arrepentimiento máximo)
-matriz_arrepentimiento = t(apply(tabla, 1, function(x) max_cols - x))
-max_arrepentimiento = apply(matriz_arrepentimiento, 1, max)
-opt_savage = names(which.min(max_arrepentimiento))
-print(matriz_arrepentimiento)
-print(max_arrepentimiento)
-cat("Alternativa óptima:", opt_savage)
+# E. Criterio del Punto Ideal
+puntoideal_fav = criterio.PuntoIdeal(tabla, favorable = TRUE)
+print(puntoideal_fav)
+
+# F. Criterio de Savage
+savage_fav = criterio.Savage(tabla, favorable = TRUE)
+print(savage_fav)
 
 
 # 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
 
-# A. Criterio de Laplace para Costes
-opt_laplace_desf = names(which.min(laplace_fav))
-print(laplace_fav)
-cat("Alternativa óptima (menor media):", opt_laplace_desf)
+
+# A. Criterio de Laplace
+laplace_desfav = criterio.Laplace(tabla, favorable = FALSE)
+print(laplace_desfav)
 
 # B. Criterio Minimax
-minimax_val = max_filas
-opt_minimax = names(which.min(minimax_val))
-print(minimax_val)
-cat("Alternativa óptima:", opt_minimax)
+minimax_desfav = criterio.Optimista(tabla, favorable = FALSE)
+print(minimax_desfav)
 
-# C. Criterio Minimin
-minimin_val = min_filas
-opt_minimin = names(which.min(minimin_val))
-print(minimin_val)
-cat("Alternativa óptima:", opt_minimin)
+# C. Criterio Pesimista / Minimin / Wald
+minimin_desfav = criterio.Wald(tabla, favorable = FALSE)
+print(minimin_desfav)
 
-# D. Criterio de Hurwicz para Costes
-hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
-opt_hurwicz_desf = names(which.min(hurwicz_desf))
-print(hurwicz_desf)
-cat("Alternativa óptima:", opt_hurwicz_desf)
+# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
+hurwicz_desfav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = FALSE)
+print(hurwicz_desfav)
 
+# E. Criterio del Punto Ideal
+puntoideal_desfav = criterio.PuntoIdeal(tabla, favorable = FALSE)
+print(puntoideal_desfav)
 
-
+# F. Criterio de Savage
+savage_desfav = criterio.Savage(tabla, favorable = FALSE)
+print(savage_desfav)
 ```
 
 #### Cuestionario de Preguntas (Verdadero / Falso)
@@ -116,8 +102,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 Verdadero:
 
 ```{r}
-print(opt_maximax)
-print(maximax_val[3])
+print(maximax_fav$AlternativaOptima)
 ```
 
 2.  En la situación favorable, el criterio de Wald selecciona ($d_1$) por ser la más equilibrada.
@@ -125,7 +110,7 @@ print(maximax_val[3])
 Falso:
 
 ```{r}
-print(opt_maximin)
+print(maximin_fav$AlternativaOptima)
 ```
 
 3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
@@ -133,28 +118,23 @@ print(opt_maximin)
 Falso (diferente coste medio aunque la elegida sea $d_4$):
 
 ```{r}
-print(opt_laplace_desf)
-print(laplace_fav[4])
+print(c(laplace_desfav$AlternativaOptima,laplace_desfav$ValorOptimo))
 ```
 
-4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,5$), ($d_2$) obtiene el valor más alto con 34.
 
 Falso:
 
 ```{r}
-alpha=0.6
-hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
-opt_hurwicz_fav = names(which.max(hurwicz_fav))
-print(hurwicz_fav)
-cat("Alternativa óptima:", opt_hurwicz_fav)
+print(c(hurwicz_fav$AlternativaOptima,hurwicz_fav$ValorOptimo))
 ```
 
 5.  En la situación desfavorable, el criterio de Wald selecciona ($d_3$).
 
-Verdadero:
+Falso:
 
 ```{r}
-print(opt_minimin)
+print(minimin_desfav$AlternativaOptima)
 ```
 
 ### Ejercicio 2:
@@ -193,92 +173,80 @@ colnames(tabla) = c("e1", "e2", "e3")
 cat("MATRIZ DE DECISIÓN INICIAL\n")
 print(tabla)
 
-# Extraer valores estadísticos básicos por fila y columna
-max_filas = apply(tabla, 1, max)
-min_filas = apply(tabla, 1, min)
-max_cols  = apply(tabla, 2, max)
-
 
 # 2. Situación favorable (Maximización de Beneficios)
 
 # A. Criterio de Laplace
-laplace_fav = rowMeans(tabla)
-opt_laplace_fav = names(which.max(laplace_fav))
+laplace_fav = criterio.Laplace(tabla, favorable = TRUE)
 print(laplace_fav)
-cat("Alternativa óptima:", opt_laplace_fav)
 
 # B. Criterio Optimista / Maximax
-maximax_val = max_filas
-opt_maximax = names(which.max(maximax_val))
-print(maximax_val)
-cat("Alternativa óptima:", opt_maximax)
+maximax_fav = criterio.Optimista(tabla, favorable = TRUE)
+print(maximax_fav)
 
 # C. Criterio Pesimista / Maximin / Wald
-maximin_val = min_filas
-opt_maximin = names(which.max(maximin_val))
-print(maximin_val)
-cat("Alternativa óptima:", opt_maximin)
+maximin_fav = criterio.Wald(tabla, favorable = TRUE)
+print(maximin_fav)
 
 # D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
-alpha = 0.5
-hurwicz_fav = alpha * max_filas + (1 - alpha) * min_filas
-opt_hurwicz_fav = names(which.max(hurwicz_fav))
+hurwicz_fav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = TRUE)
 print(hurwicz_fav)
-cat("Alternativa óptima:", opt_hurwicz_fav)
 
-# E. Criterio de Savage
-matriz_arrepentimiento = t(apply(tabla, 1, function(x) max_cols - x))
-max_arrepentimiento = apply(matriz_arrepentimiento, 1, max)
-opt_savage = names(which.min(max_arrepentimiento))
-print(matriz_arrepentimiento)
-print(max_arrepentimiento)
-cat("Alternativa óptima:", opt_savage)
+# E. Criterio del Punto Ideal
+puntoideal_fav = criterio.PuntoIdeal(tabla, favorable = TRUE)
+print(puntoideal_fav)
+
+# F. Criterio de Savage
+savage_fav = criterio.Savage(tabla, favorable = TRUE)
+print(savage_fav)
 
 
 # 3. SITUACIÓN DESFAVORABLE (Minimización de Costes / Pérdidas)
 
-# A. Criterio de Laplace para Costes
-opt_laplace_desf = names(which.min(laplace_fav))
-print(laplace_fav)
-cat("Alternativa óptima (menor media):", opt_laplace_desf)
+
+# A. Criterio de Laplace
+laplace_desfav = criterio.Laplace(tabla, favorable = FALSE)
+print(laplace_desfav)
 
 # B. Criterio Minimax
-minimax_val = max_filas
-opt_minimax = names(which.min(minimax_val))
-print(minimax_val)
-cat("Alternativa óptima:", opt_minimax)
+minimax_desfav = criterio.Optimista(tabla, favorable = FALSE)
+print(minimax_desfav)
 
-# C. Criterio Minimin
-minimin_val = min_filas
-opt_minimin = names(which.min(minimin_val))
-print(minimin_val)
-cat("Alternativa óptima:", opt_minimin)
+# C. Criterio Pesimista / Minimin / Wald
+minimin_desfav = criterio.Wald(tabla, favorable = FALSE)
+print(minimin_desfav)
 
-# D. Criterio de Hurwicz para Costes
-hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
-opt_hurwicz_desf = names(which.min(hurwicz_desf))
-print(hurwicz_desf)
-cat("Alternativa óptima:", opt_hurwicz_desf)
+# D. Criterio de Hurwicz (Coeficiente de optimismo alpha = 0.5)
+hurwicz_desfav = criterio.Hurwicz(tabla, alfa = 0.5, favorable = FALSE)
+print(hurwicz_desfav)
+
+# E. Criterio del Punto Ideal
+puntoideal_desfav = criterio.PuntoIdeal(tabla, favorable = FALSE)
+print(puntoideal_desfav)
+
+# F. Criterio de Savage
+savage_desfav = criterio.Savage(tabla, favorable = FALSE)
+print(savage_desfav)
 ```
 
 #### Cuestionario de Preguntas (Verdadero / Falso)
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
+1.  Según el criterio pesimista de Wald en situación favorable, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
 
 Verdadero:
 
 ```{r}
-print(opt_maximin)
+print(maximin_fav$AlternativaOptima)
 ```
 
-2.  El criterio optimista recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+2.  El criterio optimista en situación favorable recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
 
 Falso:
 
 ```{r}
-print(opt_maximax)
+print(maximax_fav$AlternativaOptima)
 ```
 
 
@@ -287,25 +255,21 @@ print(opt_maximax)
 Verdadero:
 
 ```{r}
-print(opt_laplace_desf)
+print(c(laplace_desfav$AlternativaOptima,laplace_desfav$ValorOptimo))
 ```
 
-4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
+4.  El criterio de Savage y el de Laplace favorables coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
 
 Verdadero:
 
 ```{r}
-print(c(opt_laplace_fav,opt_savage))
+print(c(laplace_fav$AlternativaOptima,savage_fav$AlternativaOptima))
 ```
 
-5. En el criterio de Hurwicz para costes con $\alpha = 0{,}6$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+5. En el criterio de Hurwicz para costes con $\alpha = 0{,}5$, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
 
-Verdadero:
+Falso:
 
 ```{r}
-alpha = 0.6
-hurwicz_desf = alpha * min_filas + (1 - alpha) * max_filas
-opt_hurwicz_desf = names(which.max(hurwicz_desf))
-print(hurwicz_desf)
-cat("Alternativa menos ventajosa:", opt_hurwicz_desf)
+print(hurwicz_desfav$AlternativaOptima)
 ```

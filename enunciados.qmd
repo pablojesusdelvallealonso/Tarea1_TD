@@ -10,6 +10,8 @@ editor: visual
 
 ### Ejercicio 1:
 
+Se considera la siguiente tabla de decisión, con 4 alternativas ($d_1$, $d_2$, $d_3$, $d_4$) y 3 estados de naturaleza ($e_1$, $e_2$, $e_3$, $e_4$)
+
 | Alternativas | e1  | e2  | e3  |
 |--------------|-----|-----|-----|
 | d1           | 50  | 30  | 10  |
@@ -27,7 +29,7 @@ Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
 3.  En la situación desfavorable (costes), el criterio de Laplace recomienda ($d_4$) con un coste medio de 26.000 €.
 
-4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,6$), ($d_2$) obtiene el valor más alto con 34.
+4.  En el criterio de Hurwicz para la situación favorable ($\alpha = 0,5$), ($d_2$) obtiene el valor más alto con 34.
 
 5.  En la situación desfavorable, el criterio de Wald selecciona ($d_3$).
 
@@ -57,12 +59,12 @@ El gerente no dispone de información suficiente para asignar probabilidades a l
 
 Indica si las siguientes afirmaciones son verdaderas (V) o falsas (F):
 
-1.  Según el criterio pesimista de Wald, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
+1.  Según el criterio pesimista de Wald en situación favorable, el gerente de la bodega debe elegir mantener una producción artesanal y limitada ($d_1$).
 
-2.  El criterio optimista recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
+2.  El criterio optimista en situación favorable recomienda la capacidad media ($d_2$) porque ofrece la mayor rentabilidad potencial ante la demanda alta de vino de Jerez.
 
 3. Aplicando el criterio de Laplace para costes, la alternativa seleccionada es la producción artesanal ($d_1$) con un valor medio menor de 21,33
 
-4.  El criterio de Savage y el de Laplace coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
+4.  El criterio de Savage y el de Laplace favorables coinciden en recomendar la misma alternativa ($d_2$, capacidad media).
 
-5. En el criterio de Hurwicz para costes con $\alpha$ = 0,6, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
+5. En el criterio de Hurwicz para costes con $\alpha$ = 0,5, la opción menos ventajosa para la bodega es la capacidad media ($d_2$).
